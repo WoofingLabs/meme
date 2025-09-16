@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Domain Launchpad - X Layer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://woofingjace.com/images/jace.png" type="image/x-icon">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #121212; color: #E6E6E6; padding: 20px; min-height: 100vh; line-height: 1.5; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 30px; background: #1A1A1A; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
+        h1 { text-align: center; color: #cccccc; font-size: clamp(1.8em, 5vw, 2.5em); margin-bottom: 25px; font-weight: 700; text-transform: uppercase; }
+        .section { background: #222222; padding: 20px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #cccccc; }
+        h2 { color: #cccccc; font-size: clamp(1.2em, 3.5vw, 1.6em); margin-bottom: 15px; font-weight: 600; }
+        .button { background: #333333; color: #ffffff; padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; font-size: 1em; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; margin: 5px; }
+        .button:hover { background: #555555; transform: translateY(-2px); }
+        .button:disabled { background: #444444; color: #777777; cursor: not-allowed; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #cccccc; border-radius: 6px; background: #2A2A2A; color: #E6E6E6; font-size: 1em; }
+        input::placeholder { color: #666666; }
+        .status { margin-top: 10px; font-size: 0.9em; color: #cccccc; }
+        .wallet-info { color: #cccccc; font-weight: 600; word-break: break-all; }
+        .output-box { background: #2A2A2A; padding: 15px; border-radius: 6px; margin-bottom: 15px; word-break: break-all; font-size: 0.9em; color: #E6E6E6; }
+        .output-box label { display: block; font-size: 0.9em; margin-bottom: 5px; color: #cccccc; }
+        .footer { text-align: center; margin-top: 30px; font-size: 0.85em; color: #666666; }
+        .footer a { color: #cccccc; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        .how-it-works { background: #222222; padding: 20px; border-radius: 8px; border: 1px solid #cccccc; margin-top: 20px; }
+        .how-it-works ul { list-style-type: disc; padding-left: 20px; margin-top: 10px; }
+        .how-it-works li { margin-bottom: 12px; font-size: 0.9em; }
+        .how-it-works .highlight { color: #cccccc; font-weight: 600; }
+        .loading { opacity: 0.7; pointer-events: none; }
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .section, .how-it-works { padding: 15px; }
+            .button { width: 100%; padding: 12px; margin: 8px 0; }
+            .how-it-works ul { padding-left: 15px; }
+            .how-it-works li { font-size: 0.85em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Meme Domain Launchpad</h1>
+        <div class="section">
+            <h2>Connect to X Layer</h2>
+            <button id="connectButton" class="button">Connect Wallet</button>
+            <p>Wallet: <span id="walletAddress" class="wallet-info">Not connected</span></p>
+            <div id="networkStatus" class="status">Click to connect...</div>
+        </div>
+        <div class="section" id="mintDomainSection">
+            <h2>Mint .meme Domain Name</h2>
+            <input type="text" id="domainId" placeholder="Domain ID (e.g., jace123)" oninput="validateInput()">
+            <div class="output-box">
+                <label>Domain Name</label>
+                <span id="domainOutputText">Enter a domain ID to see the full domain</span>
+            </div>
+            <button id="mintDomain" class="button">Mint Domain NFT</button>
+            <div class="output-box">
+                <label>Contract Address</label>
+                <span id="contractAddress">0x8AE19667A93bA309EC942911712e646f38F773cD</span>
+            </div>
+            <button id="copyAddressButton" class="button">Copy Contract Address</button>
+            <div id="mintStatus" class="status"></div>
+        </div>
+        <div class="section" id="querySection">
+            <h2>Query Domain Information</h2>
+            <input type="text" id="queryId" placeholder="Enter domain ID (e.g., jace123)" oninput="enableQueryButtons()">
+            <button id="queryTokenIdById" class="button" disabled>Get Token ID by ID</button>
+            <button id="queryTokenAddressById" class="button" disabled>Get Token Address by ID</button>
+            <input type="text" id="queryTokenId" placeholder="Enter token ID (e.g., 1)" oninput="enableQueryButtons()">
+            <button id="queryIdByTokenId" class="button" disabled>Get ID by Token ID</button>
+            <button id="queryTokenAddressByTokenId" class="button" disabled>Get Token Address by Token ID</button>
+            <div class="output-box">
+                <label>Query Result</label>
+                <span id="queryResult">Enter a domain ID or token ID to query</span>
+            </div>
+            <div id="queryStatus" class="status"></div>
+        </div>
+        <div class="how-it-works">
+            <h2>How It Works?</h2>
+            <p>Mint and manage your unique .meme domain name NFTs on X Layer with our Launchpad!</p>
+            <ul>
+                <li><strong>Connect Your Wallet</strong>: Use MetaMask to connect to X Layer (chain ID: 196). Ensure enough <span class="highlight">OKB</span> for gas fees.</li>
+                <li><strong>Mint Domain</strong>: Enter a domain ID (1-15 alphanumeric characters) and mint your .meme NFT.</li>
+                <li><strong>Query Information</strong>: Use the query section to find token IDs, domain IDs, or associated token addresses.</li>
+                <li><strong>Secure & Unique</strong>: One domain per ID, case-insensitive, low-cost transactions on X Layer.</li>
+            </ul>
+        </div>
+        <div class="footer">
+            Powered by <a href="https://www.okx.com/web3/explorer/xlayer" target="_blank">X Layer</a> | Meme Domain Launchpad © 2025
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <script>
+        let web3, accounts, domainContract;
+        const contractInfo = {
+            address: '0x8AE19667A93bA309EC942911712e646f38F773cD',
+            suffix: 'meme',
+            protocol: 'memename',
+            currency: 'OKB',
+            name: 'X0 Meme Name',
+            symbol: 'XMEME'
+        };
+
+        const domainContractABI = [
+            {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"minter","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"string","name":"id","type":"string"},{"indexed":false,"internalType":"address","name":"tokenAddress","type":"address"}],"name":"Minted","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},
+            {"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"_id","type":"string"}],"name":"getIdByTokenAddress","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getIdByTokenId","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"_id","type":"string"}],"name":"getTokenAddressById","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getTokenAddressByTokenId","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"_id","type":"string"}],"name":"getTokenIdById","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"_id","type":"string"}],"name":"mint","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"index","type":"uint256"}],"name":"tokenByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"tokenOfOwnerByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"tokenAddress","type":"address"}],"name":"getTokenIdByTokenAddress","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"mintBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"idsMintedLower","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"idByTokenId","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"idByTokenAddress","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenName","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"tokenIdByTokenAddress","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"tokenIdById","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokenLengthCategory","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokenAddressByTokenId","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokensByOwner","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
+        ];
+
+        const xLayer = { chainId: 196, name: 'X Layer mainnet', explorerUrl: 'https://www.okx.com/web3/explorer/xlayer', rpcUrl: 'https://rpc.xlayer.tech' };
+
+        async function connectWallet() {
+            const status = document.getElementById('networkStatus');
+            try {
+                if (!window.ethereum) {
+                    status.innerHTML = 'No wallet detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.';
+                    throw new Error("No wallet detected");
+                }
+                status.innerText = "Connecting...";
+                web3 = new Web3(window.ethereum);
+                accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (!accounts.length) throw new Error("Please unlock your wallet or connect it.");
+                const chainId = await web3.eth.getChainId();
+                if (chainId !== 196) {
+                    try {
+                        await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0xc4' }] });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [{
+                                    chainId: '0xc4',
+                                    chainName: 'X Layer mainnet',
+                                    nativeCurrency: { name: 'OKB', symbol: 'OKB', decimals: 18 },
+                                    rpcUrls: ['https://rpc.xlayer.tech'],
+                                    blockExplorerUrls: ['https://www.okx.com/web3/explorer/xlayer']
+                                }]
+                            });
+                        } else throw switchError;
+                    }
+                }
+                document.getElementById('walletAddress').innerText = `${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
+                domainContract = new web3.eth.Contract(domainContractABI, contractInfo.address);
+                status.innerText = "Connected to X Layer";
+            } catch (error) {
+                console.error(error);
+                status.innerText = "Failed to connect: " + error.message;
+            }
+        }
+
+        function isValidString(str) {
+            const strBytes = new TextEncoder().encode(str);
+            if (strBytes.length === 0 || strBytes.length > 15) return false;
+            for (let i = 0; i < strBytes.length; i++) {
+                const char = strBytes[i];
+                if (!(char >= 48 && char <= 57) && !(char >= 65 && char <= 90) && !(char >= 97 && char <= 122)) return false;
+            }
+            return true;
+        }
+
+        function validateInput() {
+            const input = document.getElementById('domainId').value.trim();
+            const output = document.getElementById('domainOutputText');
+            const status = document.getElementById('mintStatus');
+
+            if (!input) {
+                output.textContent = 'Enter a domain ID to see the full domain';
+                status.textContent = '';
+                return;
+            }
+
+            if (!isValidString(input)) {
+                output.textContent = 'Invalid input: Use letters and numbers only, 1-15 characters';
+                status.textContent = 'Invalid input';
+                return;
+            }
+
+            output.textContent = `${input}.${contractInfo.suffix}`;
+            status.textContent = `Domain: ${input}.${contractInfo.suffix} ready to mint`;
+        }
+
+        function enableQueryButtons() {
+            const queryId = document.getElementById('queryId').value.trim();
+            const queryTokenId = document.getElementById('queryTokenId').value.trim();
+            const queryTokenIdByIdButton = document.getElementById('queryTokenIdById');
+            const queryTokenAddressByIdButton = document.getElementById('queryTokenAddressById');
+            const queryIdByTokenIdButton = document.getElementById('queryIdByTokenId');
+            const queryTokenAddressByTokenIdButton = document.getElementById('queryTokenAddressByTokenId');
+
+            queryTokenIdByIdButton.disabled = !queryId || !isValidString(queryId);
+            queryTokenAddressByIdButton.disabled = !queryId || !isValidString(queryId);
+            queryIdByTokenIdButton.disabled = !queryTokenId || isNaN(queryTokenId) || queryTokenId <= 0;
+            queryTokenAddressByTokenIdButton.disabled = !queryTokenId || isNaN(queryTokenId) || queryTokenId <= 0;
+        }
+
+        async function mintDomain() {
+            const section = document.getElementById('mintDomainSection');
+            const status = document.getElementById('mintStatus');
+            const domainId = document.getElementById('domainId').value.trim();
+            if (!domainId || domainId.length > 15 || !/^[a-zA-Z0-9]+$/.test(domainId)) {
+                status.innerText = "Invalid Domain ID. Use 1-15 alphanumeric characters.";
+                return;
+            }
+            if (!accounts) {
+                status.innerText = "Please connect your wallet first!";
+                return;
+            }
+            try {
+                section.classList.add('loading');
+                status.innerText = "Checking domain availability...";
+                const domainIdLower = domainId.toLowerCase();
+                const isMinted = await domainContract.methods.idsMintedLower(domainIdLower).call();
+                if (isMinted) {
+                    status.innerText = "Domain ID already minted!";
+                    return;
+                }
+                status.innerText = "Minting domain NFT...";
+                const gas = await domainContract.methods.mint(domainId).estimateGas({ from: accounts[0] }).catch(() => 600000);
+                const tx = await domainContract.methods.mint(domainId).send({ from: accounts[0], gas: Math.floor(gas * 1.2) });
+                status.innerHTML = `Domain minted! Token ID: ${tx.events.Minted.returnValues.tokenId} (<a href="${xLayer.explorerUrl}/token/${contractInfo.address}?a=${tx.events.Minted.returnValues.tokenId}" target="_blank">View on Explorer</a>)`;
+                document.getElementById('domainId').value = '';
+                validateInput();
+            } catch (error) {
+                console.error(error);
+                status.innerText = "Failed to mint domain: " + (error.message.includes('revert') ? error.message.split('revert')[1]?.trim() || 'Unknown reason' : error.message);
+            } finally {
+                section.classList.remove('loading');
+            }
+        }
+
+        async function queryTokenIdById() {
+            const queryId = document.getElementById('queryId').value.trim();
+            const result = document.getElementById('queryResult');
+            const status = document.getElementById('queryStatus');
+            if (!queryId || !isValidString(queryId)) {
+                status.innerText = "Invalid Domain ID. Use 1-15 alphanumeric characters.";
+                return;
+            }
+            if (!accounts) {
+                status.innerText = "Please connect your wallet first!";
+                return;
+            }
+            try {
+                const tokenId = await domainContract.methods.getTokenIdById(queryId).call();
+                result.textContent = `Token ID: ${tokenId}`;
+                status.innerText = `Found token ID for ${queryId}.${contractInfo.suffix}`;
+            } catch (error) {
+                console.error(error);
+                status.innerText = "Failed to query: " + (error.message.includes('revert') ? error.message.split('revert')[1]?.trim() || 'ID not minted' : error.message);
+            }
+        }
+
+        async function queryIdByTokenId() {
+            const tokenId = document.getElementById('queryTokenId').value.trim();
+            const result = document.getElementById('queryResult');
+            const status = document.getElementById('queryStatus');
+            if (!tokenId || isNaN(tokenId) || tokenId <= 0) {
+                status.innerText = "Invalid Token ID. Enter a positive number.";
+                return;
+            }
+            if (!accounts) {
+                status.innerText = "Please connect your wallet first!";
+                return;
+            }
+            try {
+                const id = await domainContract.methods.getIdByTokenId(tokenId).call();
+                result.textContent = `Domain ID: ${id}.${contractInfo.suffix}`;
+                status.innerText = `Found domain ID for token ID ${tokenId}`;
+            } catch (error) {
+                console.error(error);
+                status.innerText = "Failed to query: " + (error.message.includes('revert') ? error.message.split('revert')[1]?.trim() || 'Token does not exist' : error.message);
+            }
+        }
+
+        async function queryTokenAddressById() {
+            const queryId = document.getElementById('queryId').value.trim();
+            const result = document.getElementById('queryResult');
+            const status = document.getElementById('queryStatus');
+            if (!queryId || !isValidString(queryId)) {
+                status.innerText = "Invalid Domain ID. Use 1-15 alphanumeric characters.";
+                return;
+            }
+            if (!accounts) {
+                status.innerText = "Please connect your wallet first!";
+                return;
+            }
+            try {
+                const tokenAddress = await domainContract.methods.getTokenAddressById(queryId).call();
+                result.textContent = `Token Address: ${tokenAddress}`;
+                status.innerText = `Found token address for ${queryId}.${contractInfo.suffix}`;
+            } catch (error) {
+                console.error(error);
+                status.innerText = "Failed to query: " + (error.message.includes('revert') ? error.message.split('revert')[1]?.trim() || 'ID not minted' : error.message);
+            }
+        }
+
+        async function queryTokenAddressByTokenId() {
+            const tokenId = document.getElementById('queryTokenId').value.trim();
+            const result = document.getElementById('queryResult');
+            const status = document.getElementById('queryStatus');
+            if (!tokenId || isNaN(tokenId) || tokenId <= 0) {
+                status.innerText = "Invalid Token ID. Enter a positive number.";
+                return;
+            }
+            if (!accounts) {
+                status.innerText = "Please connect your wallet first!";
+                return;
+            }
+            try {
+                const tokenAddress = await domainContract.methods.getTokenAddressByTokenId(tokenId).call();
+                result.textContent = `Token Address: ${tokenAddress}`;
+                status.innerText = `Found token address for token ID ${tokenId}`;
+            } catch (error) {
+                console.error(error);
+                status.innerText = "Failed to query: " + (error.message.includes('revert') ? error.message.split('revert')[1]?.trim() || 'Token does not exist' : error.message);
+            }
+        }
+
+        function copyToClipboard() {
+            const status = document.getElementById('mintStatus');
+            const sourceElement = document.getElementById('contractAddress');
+            const textToCopy = sourceElement.textContent;
+
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                status.innerText = 'Contract address copied to clipboard';
+            } catch (error) {
+                console.error('Copy address failed:', error);
+                status.innerText = 'Failed to copy contract address. Select and copy manually.';
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('copyAddressButton').disabled = false;
+            document.getElementById('connectButton').addEventListener('click', connectWallet);
+            document.getElementById('mintDomain').addEventListener('click', mintDomain);
+            document.getElementById('copyAddressButton').addEventListener('click', copyToClipboard);
+            document.getElementById('queryTokenIdById').addEventListener('click', queryTokenIdById);
+            document.getElementById('queryIdByTokenId').addEventListener('click', queryIdByTokenId);
+            document.getElementById('queryTokenAddressById').addEventListener('click', queryTokenAddressById);
+            document.getElementById('queryTokenAddressByTokenId').addEventListener('click', queryTokenAddressByTokenId);
+            if (!window.location.protocol.startsWith('http')) document.getElementById('networkStatus').innerHTML = 'Please run this page via a local server (e.g., "npx serve") to connect MetaMask.';
+            else if (!window.ethereum) document.getElementById('networkStatus').innerHTML = 'No wallet detected. Please install <a href="https://metamask.io">MetaMask</a>.';
+        });
+    </script>
+</body>
+</html>
