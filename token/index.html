@@ -7,7 +7,7 @@
     <meta name="keywords" content="JaceFun, Meme, domain token, X Layer, blockchain, Web3, cryptocurrency, WoofingJace">
     <meta name="robots" content="index, follow">
     <title>JaceFun Meme - Domain Token Trading</title>
-    <base href="/meme/">
+    <base href="/meme/token/">
     <link rel="icon" href="https://swap.woofingjace.com/image/header/logo.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -514,7 +514,7 @@
                     document.getElementById('tokenInfo').style.display = 'none';
                     currentTokenAddress = '';
                     document.getElementById('tokenContract').value = '';
-                    window.history.replaceState({}, '', `/meme/`);
+                    window.history.replaceState({}, '', `/meme/token/`);
                     return;
                 }
                 currentTokenAddress = tokenAddress;
@@ -527,7 +527,7 @@
                 document.getElementById('tokenInfo').style.display = 'none';
                 currentTokenAddress = '';
                 document.getElementById('tokenContract').value = '';
-                window.history.replaceState({}, '', `/meme/`);
+                window.history.replaceState({}, '', `/meme/token/`);
             }
         }
 
