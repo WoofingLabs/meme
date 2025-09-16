@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="JaceFun Meme: Create, trade, and manage .meme domain-based tokens on X Layer blockchain. Connect with MetaMask to explore .meme tokens.">
-    <meta name="keywords" content="JaceFun, Meme, domain token, X Layer, blockchain, NFT, Web3, cryptocurrency, WoofingJace">
+    <meta name="description" content="JaceFun Meme: Trade and manage .meme domain-based tokens on X Layer blockchain. Connect with MetaMask to explore .meme tokens.">
+    <meta name="keywords" content="JaceFun, Meme, domain token, X Layer, blockchain, Web3, cryptocurrency, WoofingJace">
     <meta name="robots" content="index, follow">
     <title>JaceFun Meme - Domain Token Trading</title>
     <base href="/memefun/">
@@ -170,14 +170,6 @@
             background: #FF6666;
             transform: translateY(-2px);
         }
-        .create-btn {
-            background: #00FFC8;
-            color: #000000;
-        }
-        .create-btn:hover {
-            background: #FFFFFF;
-            transform: translateY(-2px);
-        }
         button:disabled {
             background: #444444;
             color: #777777;
@@ -325,15 +317,6 @@
                     <div id="transactionStatus" class="status"></div>
                 </div>
             </div>
-            <div class="section">
-                <h2>Create Domain Token</h2>
-                <label for="tokenId">NFT Token ID:</label>
-                <input type="number" id="tokenId" placeholder="Enter NFT Token ID" disabled>
-                <div class="action-buttons">
-                    <button id="createDomainToken" class="create-btn" onclick="createDomainToken()" disabled>Create Domain Token</button>
-                </div>
-                <div id="createDomainStatus" class="status"></div>
-            </div>
         </div>
         <footer>
             <p>Powered by <a href="https://x.com/WoofingJace" target="_blank">WoofingJace</a> & <a href="https://www.okx.com/web3/explorer/xlayer" target="_blank">X Layer</a> © 2025</p>
@@ -480,8 +463,6 @@
         }
 
         function enableInputs(enabled) {
-            document.getElementById('tokenId').disabled = !enabled;
-            document.getElementById('createDomainToken').disabled = !enabled;
             document.getElementById('buyAmount').disabled = !enabled;
             document.getElementById('sellAmount').disabled = !enabled;
         }
@@ -678,38 +659,6 @@
                 await fetchTokenInfo();
             } catch (error) {
                 document.getElementById('transactionStatus').innerText = `Sell failed: ${error.message}`;
-            }
-        }
-
-        async function createDomainToken() {
-            if (!web3 || !accounts) {
-                document.getElementById('createDomainStatus').innerText = 'Please connect wallet';
-                return;
-            }
-            const tokenId = document.getElementById('tokenId').value;
-            if (!tokenId || tokenId <= 0) {
-                document.getElementById('createDomainStatus').innerText = 'Please enter a valid NFT Token ID';
-                return;
-            }
-            try {
-                document.getElementById('createDomainStatus').innerText = 'Checking NFT ownership...';
-                const owner = await memeContract.methods.ownerOf(tokenId).call();
-                if (owner.toLowerCase() !== accounts[0].toLowerCase()) {
-                    document.getElementById('createDomainStatus').innerText = 'You do not hold this NFT';
-                    return;
-                }
-                const id = await memeContract.methods.getIdByTokenId(tokenId).call();
-                document.getElementById('createDomainStatus').innerText = 'Creating domain token...';
-                const gas = await tokenFactoryContract.methods.createToken(`${id}.meme`, id.toUpperCase()).estimateGas({ from: accounts[0] });
-                const result = await tokenFactoryContract.methods.createToken(`${id}.meme`, id.toUpperCase()).send({ from: accounts[0], gas: Math.floor(gas * 1.2) });
-                const tokenAddress = result;
-                document.getElementById('createDomainStatus').innerText = `Domain token created: ${tokenAddress}`;
-                document.getElementById('tokenContract').value = tokenAddress;
-                currentTokenAddress = tokenAddress;
-                await fetchTokenInfo();
-                await updateBalances();
-            } catch (error) {
-                document.getElementById('createDomainStatus').innerText = `Create failed: ${error.message.includes('revert') ? error.message.split('revert')[1]?.trim() || 'Unknown reason' : error.message}`;
             }
         }
 
