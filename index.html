@@ -3,92 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Meme Domain Launchpad: Mint and query .meme domain NFTs on X Layer blockchain. Connect with MetaMask to create unique .meme domains.">
+    <meta name="keywords" content="Meme, domain NFT, X Layer, blockchain, Web3, cryptocurrency">
+    <meta name="robots" content="index, follow">
     <title>Meme Domain Launchpad - X Layer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://woofingjace.com/images/jace.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: #121212; color: #E6E6E6; padding: 20px; min-height: 100vh; line-height: 1.5; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 30px; background: #1A1A1A; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
-        h1 { text-align: center; color: #cccccc; font-size: clamp(1.8em, 5vw, 2.5em); margin-bottom: 25px; font-weight: 700; text-transform: uppercase; }
-        .section { background: #222222; padding: 20px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #cccccc; }
-        h2 { color: #cccccc; font-size: clamp(1.2em, 3.5vw, 1.6em); margin-bottom: 15px; font-weight: 600; }
-        .button { background: #333333; color: #ffffff; padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; font-size: 1em; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; margin: 5px; }
-        .button:hover { background: #555555; transform: translateY(-2px); }
-        .button:disabled { background: #444444; color: #777777; cursor: not-allowed; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #cccccc; border-radius: 6px; background: #2A2A2A; color: #E6E6E6; font-size: 1em; }
-        input::placeholder { color: #666666; }
-        .status { margin-top: 10px; font-size: 0.9em; color: #cccccc; }
-        .wallet-info { color: #cccccc; font-weight: 600; word-break: break-all; }
-        .output-box { background: #2A2A2A; padding: 15px; border-radius: 6px; margin-bottom: 15px; word-break: break-all; font-size: 0.9em; color: #E6E6E6; }
-        .output-box label { display: block; font-size: 0.9em; margin-bottom: 5px; color: #cccccc; }
-        .footer { text-align: center; margin-top: 30px; font-size: 0.85em; color: #666666; }
-        .footer a { color: #cccccc; text-decoration: none; }
-        .footer a:hover { text-decoration: underline; }
-        .how-it-works { background: #222222; padding: 20px; border-radius: 8px; border: 1px solid #cccccc; margin-top: 20px; }
-        .how-it-works ul { list-style-type: disc; padding-left: 20px; margin-top: 10px; }
-        .how-it-works li { margin-bottom: 12px; font-size: 0.9em; }
-        .how-it-works .highlight { color: #cccccc; font-weight: 600; }
-        .loading { opacity: 0.7; pointer-events: none; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #121212;
+            color: #E6E6E6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: #1A1A1A;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #00FFC8;
+            font-size: clamp(1.8em, 5vw, 2.5em);
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 100px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .button {
+            background: #333333;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .button:hover {
+            background: #00FFC8;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        .button:disabled {
+            background: #444444;
+            color: #777777;
+            cursor: not-allowed;
+        }
+        .section {
+            background: #222222;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #cccccc;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #00FFC8;
+            font-size: clamp(1.2em, 3.5vw, 1.6em);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        label {
+            display: block;
+            font-size: 0.9rem;
+            color: #BBBBBB;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            background: #2A2A2A;
+            color: #E6E6E6;
+            font-size: 0.9rem;
+        }
+        input::placeholder {
+            color: #666666;
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 255, 200, 0.4);
+        }
+        .status {
+            font-size: 0.85rem;
+            color: #FF5252;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .wallet-info {
+            color: #BBBBBB;
+            font-weight: 600;
+            word-break: break-all;
+        }
+        .output-box {
+            background: #2A2A2A;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            word-break: break-all;
+            font-size: 0.9rem;
+            color: #E6E6E6;
+        }
+        .output-box label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #BBBBBB;
+        }
+        .how-it-works {
+            background: #222222;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #cccccc;
+            margin-top: 20px;
+        }
+        .how-it-works ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        .how-it-works li {
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        .how-it-works .highlight {
+            color: #00FFC8;
+            font-weight: 600;
+        }
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #666666;
+        }
+        .footer a {
+            color: #00FFC8;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
         @media (max-width: 768px) {
             .container { padding: 15px; }
+            .header { flex-direction: column; align-items: center; }
+            .logo { width: 80px; height: 40px; }
+            .button { width: 100%; padding: 12px; margin: 8px 0; font-size: 0.8rem; }
             .section, .how-it-works { padding: 15px; }
-            .button { width: 100%; padding: 12px; margin: 8px 0; }
+            h2 { font-size: 1.1rem; }
+            input { font-size: 0.8rem; padding: 8px; }
+            .status, .output-box, .how-it-works li { font-size: 0.75rem; }
             .how-it-works ul { padding-left: 15px; }
-            .how-it-works li { font-size: 0.85em; }
+            .footer { font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Meme Domain Launchpad</h1>
-        <div class="section">
-            <h2>Connect to X Layer</h2>
-            <button id="connectButton" class="button">Connect Wallet</button>
-            <p>Wallet: <span id="walletAddress" class="wallet-info">Not connected</span></p>
-            <div id="networkStatus" class="status">Click to connect...</div>
-        </div>
-        <div class="section" id="mintDomainSection">
-            <h2>Mint .meme Domain Name</h2>
-            <input type="text" id="domainId" placeholder="Domain ID (e.g., jace123)" oninput="validateInput()">
-            <div class="output-box">
-                <label>Domain Name</label>
-                <span id="domainOutputText">Enter a domain ID to see the full domain</span>
+        <div class="header">
+            <img src="https://woofingjace.com/images/jace.png" alt="Meme Domain Launchpad" class="logo">
+            <div class="nav-buttons">
+                <button id="connectWallet" class="button">Connect Wallet</button>
             </div>
-            <button id="mintDomain" class="button">Mint Domain NFT</button>
-            <div class="output-box">
-                <label>Contract Address</label>
-                <span id="contractAddress">0x8AE19667A93bA309EC942911712e646f38F773cD</span>
+        </div>
+        <div class="content">
+            <div id="status" class="status"></div>
+            <div class="section">
+                <h2>Wallet Status</h2>
+                <div id="walletStatus" class="wallet-info">Not Connected</div>
             </div>
-            <button id="copyAddressButton" class="button">Copy Contract Address</button>
-            <div id="mintStatus" class="status"></div>
-        </div>
-        <div class="section" id="querySection">
-            <h2>Query Domain Information</h2>
-            <input type="text" id="queryId" placeholder="Enter domain ID (e.g., jace123)" oninput="enableQueryButtons()">
-            <button id="queryTokenIdById" class="button" disabled>Get Token ID by ID</button>
-            <button id="queryTokenAddressById" class="button" disabled>Get Token Address by ID</button>
-            <input type="text" id="queryTokenId" placeholder="Enter token ID (e.g., 1)" oninput="enableQueryButtons()">
-            <button id="queryIdByTokenId" class="button" disabled>Get ID by Token ID</button>
-            <button id="queryTokenAddressByTokenId" class="button" disabled>Get Token Address by Token ID</button>
-            <div class="output-box">
-                <label>Query Result</label>
-                <span id="queryResult">Enter a domain ID or token ID to query</span>
+            <div class="section" id="mintDomainSection">
+                <h2>Mint .meme Domain Name</h2>
+                <input type="text" id="domainId" placeholder="Domain ID (e.g., Jace123 or 😎cool)" oninput="validateInput()">
+                <div class="output-box">
+                    <label>Domain Name</label>
+                    <span id="domainOutputText">Enter a domain ID to see the full domain</span>
+                </div>
+                <button id="mintDomain" class="button mint-btn">Mint Domain NFT</button>
+                <div class="output-box">
+                    <label>Contract Address</label>
+                    <span id="contractAddress">0x8AE19667A93bA309EC942911712e646f38F773cD</span>
+                </div>
+                <button id="copyAddressButton" class="button">Copy Contract Address</button>
+                <div id="mintStatus" class="status"></div>
             </div>
-            <div id="queryStatus" class="status"></div>
-        </div>
-        <div class="how-it-works">
-            <h2>How It Works?</h2>
-            <p>Mint and manage your unique .meme domain name NFTs on X Layer with our Launchpad!</p>
-            <ul>
-                <li><strong>Connect Your Wallet</strong>: Use MetaMask to connect to X Layer (chain ID: 196). Ensure enough <span class="highlight">OKB</span> for gas fees.</li>
-                <li><strong>Mint Domain</strong>: Enter a domain ID (1-15 alphanumeric characters) and mint your .meme NFT.</li>
-                <li><strong>Query Information</strong>: Use the query section to find token IDs, domain IDs, or associated token addresses.</li>
-                <li><strong>Secure & Unique</strong>: One domain per ID, case-insensitive, low-cost transactions on X Layer.</li>
-            </ul>
-        </div>
-        <div class="footer">
-            Powered by <a href="https://www.okx.com/web3/explorer/xlayer" target="_blank">X Layer</a> | Meme Domain Launchpad © 2025
+            <div class="section" id="querySection">
+                <h2>Query Domain Information</h2>
+                <input type="text" id="queryId" placeholder="Enter domain ID (e.g., Jace123 or 😎cool)" oninput="enableQueryButtons()">
+                <button id="queryTokenIdById" class="button" disabled>Get Token ID by ID</button>
+                <button id="queryTokenAddressById" class="button" disabled>Get Token Address by ID</button>
+                <input type="text" id="queryTokenId" placeholder="Enter token ID (e.g., 1)" oninput="enableQueryButtons()">
+                <button id="queryIdByTokenId" class="button" disabled>Get ID by Token ID</button>
+                <button id="queryTokenAddressByTokenId" class="button" disabled>Get Token Address by Token ID</button>
+                <div class="output-box">
+                    <label>Query Result</label>
+                    <span id="queryResult">Enter a domain ID or token ID to query</span>
+                </div>
+                <div id="queryStatus" class="status"></div>
+            </div>
+            <div class="how-it-works">
+                <h2>How It Works?</h2>
+                <p>Mint and manage your unique .meme domain name NFTs on X Layer with our Launchpad!</p>
+                <ul>
+                    <li><strong>Connect Your Wallet</strong>: Use MetaMask to connect to X Layer (chain ID: 196). Ensure enough <span class="highlight">OKB</span> for gas fees.</li>
+                    <li><strong>Mint Domain</strong>: Enter a domain ID (1-15 bytes, any UTF-8 characters) and mint your .meme NFT.</li>
+                    <li><strong>Query Information</strong>: Use the query section to find token IDs, domain IDs, or associated token addresses.</li>
+                    <li><strong>Secure & Unique</strong>: One domain per ID, case-insensitive, low-cost transactions on X Layer.</li>
+                </ul>
+            </div>
+            <div class="footer">
+                <p>Powered by <a href="https://www.okx.com/web3/explorer/xlayer" target="_blank">X Layer</a> | Meme Domain Launchpad © 2025</p>
+                <p>Not financial advice. Always DYOR!</p>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
@@ -146,7 +304,7 @@
         const xLayer = { chainId: 196, name: 'X Layer mainnet', explorerUrl: 'https://www.okx.com/web3/explorer/xlayer', rpcUrl: 'https://rpc.xlayer.tech' };
 
         async function connectWallet() {
-            const status = document.getElementById('networkStatus');
+            const status = document.getElementById('walletStatus');
             try {
                 if (!window.ethereum) {
                     status.innerHTML = 'No wallet detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.';
@@ -175,7 +333,7 @@
                         } else throw switchError;
                     }
                 }
-                document.getElementById('walletAddress').innerText = `${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
+                document.getElementById('walletStatus').innerText = `Connected: ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
                 domainContract = new web3.eth.Contract(domainContractABI, contractInfo.address);
                 status.innerText = "Connected to X Layer";
             } catch (error) {
@@ -187,10 +345,6 @@
         function isValidString(str) {
             const strBytes = new TextEncoder().encode(str);
             if (strBytes.length === 0 || strBytes.length > 15) return false;
-            for (let i = 0; i < strBytes.length; i++) {
-                const char = strBytes[i];
-                if (!(char >= 48 && char <= 57) && !(char >= 65 && char <= 90) && !(char >= 97 && char <= 122)) return false;
-            }
             return true;
         }
 
@@ -206,7 +360,7 @@
             }
 
             if (!isValidString(input)) {
-                output.textContent = 'Invalid input: Use letters and numbers only, 1-15 characters';
+                output.textContent = 'Invalid input: Domain ID must be 1-15 bytes (UTF-8)';
                 status.textContent = 'Invalid input';
                 return;
             }
@@ -233,8 +387,8 @@
             const section = document.getElementById('mintDomainSection');
             const status = document.getElementById('mintStatus');
             const domainId = document.getElementById('domainId').value.trim();
-            if (!domainId || domainId.length > 15 || !/^[a-zA-Z0-9]+$/.test(domainId)) {
-                status.innerText = "Invalid Domain ID. Use 1-15 alphanumeric characters.";
+            if (!domainId || !isValidString(domainId)) {
+                status.innerText = "Invalid Domain ID. Use 1-15 bytes (UTF-8 characters).";
                 return;
             }
             if (!accounts) {
@@ -269,7 +423,7 @@
             const result = document.getElementById('queryResult');
             const status = document.getElementById('queryStatus');
             if (!queryId || !isValidString(queryId)) {
-                status.innerText = "Invalid Domain ID. Use 1-15 alphanumeric characters.";
+                status.innerText = "Invalid Domain ID. Use 1-15 bytes (UTF-8 characters).";
                 return;
             }
             if (!accounts) {
@@ -313,7 +467,7 @@
             const result = document.getElementById('queryResult');
             const status = document.getElementById('queryStatus');
             if (!queryId || !isValidString(queryId)) {
-                status.innerText = "Invalid Domain ID. Use 1-15 alphanumeric characters.";
+                status.innerText = "Invalid Domain ID. Use 1-15 bytes (UTF-8 characters).";
                 return;
             }
             if (!accounts) {
@@ -376,15 +530,15 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('copyAddressButton').disabled = false;
-            document.getElementById('connectButton').addEventListener('click', connectWallet);
+            document.getElementById('connectWallet').addEventListener('click', connectWallet);
             document.getElementById('mintDomain').addEventListener('click', mintDomain);
             document.getElementById('copyAddressButton').addEventListener('click', copyToClipboard);
             document.getElementById('queryTokenIdById').addEventListener('click', queryTokenIdById);
             document.getElementById('queryIdByTokenId').addEventListener('click', queryIdByTokenId);
             document.getElementById('queryTokenAddressById').addEventListener('click', queryTokenAddressById);
             document.getElementById('queryTokenAddressByTokenId').addEventListener('click', queryTokenAddressByTokenId);
-            if (!window.location.protocol.startsWith('http')) document.getElementById('networkStatus').innerHTML = 'Please run this page via a local server (e.g., "npx serve") to connect MetaMask.';
-            else if (!window.ethereum) document.getElementById('networkStatus').innerHTML = 'No wallet detected. Please install <a href="https://metamask.io">MetaMask</a>.';
+            if (!window.location.protocol.startsWith('http')) document.getElementById('walletStatus').innerHTML = 'Please run this page via a local server (e.g., "npx serve") to connect MetaMask.';
+            else if (!window.ethereum) document.getElementById('walletStatus').innerHTML = 'No wallet detected. Please install <a href="https://metamask.io">MetaMask</a>.';
         });
     </script>
 </body>
