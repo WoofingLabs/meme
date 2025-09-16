@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JaceFun Meme: Create, trade, and manage .meme domain-based tokens on X Layer blockchain. Connect with MetaMask to explore .meme tokens.">
+    <meta name="keywords" content="JaceFun, Meme, domain token, X Layer, blockchain, NFT, Web3, cryptocurrency, WoofingJace">
+    <meta name="robots" content="index, follow">
+    <title>JaceFun Meme - Domain Token Trading</title>
+    <base href="/memefun/">
+    <link rel="icon" href="https://swap.woofingjace.com/image/header/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #121212;
+            color: #E6E6E6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: #1A1A1A;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 100px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-buttons button {
+            background: #333333;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .nav-buttons button:hover {
+            background: #00FFC8;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        .nav-buttons button:disabled {
+            background: #444444;
+            color: #777777;
+            cursor: not-allowed;
+        }
+        .address-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: #2A2A2A;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            padding: 5px;
+        }
+        .address-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 10px;
+            background: transparent;
+            color: #E6E6E6;
+            font-size: 0.9rem;
+        }
+        .address-bar input::placeholder {
+            color: #666666;
+        }
+        .address-bar button {
+            background: #00FFC8;
+            color: #000000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .address-bar button:hover {
+            background: #FFFFFF;
+            transform: translateY(-2px);
+        }
+        .section {
+            background: #222222;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #cccccc;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #00FFC8;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        label {
+            display: block;
+            font-size: 0.9rem;
+            color: #BBBBBB;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #2A2A2A;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            color: #E6E6E6;
+            font-size: 0.9rem;
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 255, 200, 0.4);
+        }
+        input:disabled {
+            background: #333333;
+            color: #777777;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .buy-btn {
+            background: #00FFC8;
+            color: #000000;
+        }
+        .buy-btn:hover {
+            background: #FFFFFF;
+            transform: translateY(-2px);
+        }
+        .sell-btn {
+            background: #FF5252;
+            color: #FFFFFF;
+        }
+        .sell-btn:hover {
+            background: #FF6666;
+            transform: translateY(-2px);
+        }
+        .create-btn {
+            background: #00FFC8;
+            color: #000000;
+        }
+        .create-btn:hover {
+            background: #FFFFFF;
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            background: #444444;
+            color: #777777;
+            cursor: not-allowed;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .percent-buttons {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .percent-buttons button {
+            flex: 1;
+            background: #333333;
+            color: #FFFFFF;
+            border: 1px solid #00FFC8;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 0.8rem;
+        }
+        .percent-buttons button:hover {
+            background: #00FFC8;
+            color: #000000;
+        }
+        .percent-buttons button:disabled {
+            background: #444444;
+            color: #777777;
+        }
+        .status {
+            font-size: 0.85rem;
+            color: #FF5252;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .balance {
+            font-size: 0.85rem;
+            color: #BBBBBB;
+            margin-left: 5px;
+        }
+        .progress-bar {
+            width: 100%;
+            background: #2A2A2A;
+            height: 16px;
+            border-radius: 6px;
+            border: 1px solid #00FFC8;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress {
+            height: 100%;
+            background: #00FFC8;
+            transition: width 0.3s;
+        }
+        .token-info {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666666;
+            margin-top: 20px;
+        }
+        footer a {
+            color: #00FFC8;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .header { flex-direction: column; align-items: center; }
+            .logo { width: 80px; height: 40px; }
+            .nav-buttons button { padding: 8px 15px; font-size: 0.8rem; }
+            .address-bar { margin: 10px 0; }
+            .address-bar input, .address-bar button { font-size: 0.8rem; padding: 8px; }
+            .section { padding: 15px; }
+            h2 { font-size: 1.1rem; }
+            input, button { font-size: 0.8rem; padding: 8px; }
+            .percent-buttons button { font-size: 0.7rem; }
+            .status, .balance { font-size: 0.75rem; }
+            footer { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://swap.woofingjace.com/image/header/logo.png" alt="JaceFun Meme" class="logo">
+            <div class="nav-buttons">
+                <button id="connectWallet">Connect Wallet</button>
+            </div>
+            <div class="address-bar">
+                <input type="text" id="domainInput" placeholder="Enter .meme domain (e.g., Jace123.meme)">
+                <button id="searchButton">Search</button>
+            </div>
+        </div>
+        <div class="content">
+            <div id="status" class="status"></div>
+            <div class="section">
+                <h2>Wallet Status</h2>
+                <div id="walletStatus" class="status">Not Connected</div>
+            </div>
+            <div class="section">
+                <h2>Token Operations</h2>
+                <label for="tokenContract">Token Contract Address:</label>
+                <input type="text" id="tokenContract" placeholder="Token address will be populated after search" readonly>
+                <div id="tokenInfo" class="token-info">
+                    <div id="tokenDetails" class="status"></div>
+                    <div id="progressResult" class="status"></div>
+                    <div class="progress-bar"><div id="progressBar" class="progress" style="width: 0%;"></div></div>
+                    <div class="section">
+                        <h2>Buy Tokens</h2>
+                        <label for="buyAmount">Amount (OKB): <span id="okbBalance" class="balance"></span></label>
+                        <input type="number" id="buyAmount" placeholder="0.0" step="0.0001" disabled>
+                        <div class="percent-buttons">
+                            <button onclick="setPercent(25, 'buy')" disabled>25%</button>
+                            <button onclick="setPercent(50, 'buy')" disabled>50%</button>
+                            <button onclick="setPercent(75, 'buy')" disabled>75%</button>
+                            <button onclick="setPercent(100, 'buy')" disabled>Max</button>
+                        </div>
+                        <div class="action-buttons">
+                            <button id="buyButton" class="buy-btn" onclick="buyTokens()" disabled>Buy Tokens</button>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>Sell Tokens</h2>
+                        <label for="sellAmount">Amount (Tokens): <span id="tokenBalance" class="balance"></span></label>
+                        <input type="number" id="sellAmount" placeholder="0.0" step="0.0001" disabled>
+                        <div class="percent-buttons">
+                            <button onclick="setPercent(25, 'sell')" disabled>25%</button>
+                            <button onclick="setPercent(50, 'sell')" disabled>50%</button>
+                            <button onclick="setPercent(75, 'sell')" disabled>75%</button>
+                            <button onclick="setPercent(100, 'sell')" disabled>Max</button>
+                        </div>
+                        <div class="action-buttons">
+                            <button id="sellButton" class="sell-btn" onclick="sellTokens()" disabled>Sell Tokens</button>
+                        </div>
+                    </div>
+                    <div id="transactionStatus" class="status"></div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Create Domain Token</h2>
+                <label for="tokenId">NFT Token ID:</label>
+                <input type="number" id="tokenId" placeholder="Enter NFT Token ID" disabled>
+                <div class="action-buttons">
+                    <button id="createDomainToken" class="create-btn" onclick="createDomainToken()" disabled>Create Domain Token</button>
+                </div>
+                <div id="createDomainStatus" class="status"></div>
+            </div>
+        </div>
+        <footer>
+            <p>Powered by <a href="https://x.com/WoofingJace" target="_blank">WoofingJace</a> & <a href="https://www.okx.com/web3/explorer/xlayer" target="_blank">X Layer</a> © 2025</p>
+            <p>Not financial advice. Always DYOR!</p>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <script>
+        let web3, accounts, memeContract, tokenFactoryContract, tokenContract;
+        let currentTokenAddress = '';
+
+        const memeContractAddress = '0x8AE19667A93bA309EC942911712e646f38F773cD';
+        const tokenFactoryAddress = '0x5A5E695AaAA6271e322678eaA21bEc00575afAEA';
+        const memeContractABI = [
+            {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"minter","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"string","name":"id","type":"string"},{"indexed":false,"internalType":"address","name":"tokenAddress","type":"address"}],"name":"Minted","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},
+            {"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"_id","type":"string"}],"name":"getIdByTokenAddress","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getIdByTokenId","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"_id","type":"string"}],"name":"getTokenAddressById","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getTokenAddressByTokenId","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"_id","type":"string"}],"name":"getTokenIdById","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"_id","type":"string"}],"name":"mint","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"index","type":"uint256"}],"name":"tokenByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"tokenOfOwnerByIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"tokenAddress","type":"address"}],"name":"getTokenIdByTokenAddress","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"mintBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"idsMintedLower","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"idByTokenId","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"idByTokenAddress","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenName","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"tokenIdByTokenAddress","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"tokenIdById","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokenLengthCategory","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokenAddressByTokenId","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokensByOwner","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
+        ];
+        const tokenFactoryABI = [
+            {"inputs":[{"internalType":"address","name":"_router","type":"address"},{"internalType":"address","name":"_tokenImplementation","type":"address"},{"internalType":"uint256","name":"_feePercent","type":"uint256"},{"internalType":"uint256","name":"_funding","type":"uint256"},{"internalType":"uint256","name":"_a","type":"uint256"},{"internalType":"uint256","name":"_b","type":"uint256"},{"internalType":"address","name":"_lp","type":"address"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"tokenAddress","type":"address"}],"name":"buyTokens","outputs":[],"stateMutability":"payable","type":"function"},
+            {"inputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":"string","name":"symbol","type":"string"}],"name":"createToken","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"tokenAddress","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"sellTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"_a","type":"uint256"},{"internalType":"uint256","name":"_b","type":"uint256"}],"name":"setab","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"feePercent","type":"uint256"}],"name":"setFeePercent","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"_fundingGoal","type":"uint256"}],"name":"setFundingGoal","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"_lp","type":"address"},{"internalType":"uint256","name":"_amt","type":"uint256"}],"name":"withdrawToken","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"_amt","type":"uint256"}],"name":"withdrawEth","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"collateral","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"FEE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"FUNDING_GOAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"INITIAL_SUPPLY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"MAX_SUPPLY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"UNISWAP_V2_ROUTER","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"a","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"b","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"lpAddr","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokenList","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"tokenCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"tokenImplementation","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"tokens","outputs":[{"internalType":"enum TokenFactory.TokenState","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"}
+        ];
+        const tokenABI = [
+            {"inputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":"string","name":"symbol","type":"string"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},
+            {"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}
+        ];
+
+        const xLayer = { chainId: 196, rpcUrl: 'https://rpc.xlayer.tech' };
+
+        async function connectWallet() {
+            const status = document.getElementById('walletStatus');
+            if (!window.ethereum) {
+                status.innerText = 'Please install MetaMask';
+                return;
+            }
+            try {
+                web3 = new Web3(window.ethereum);
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const chainId = Number(await web3.eth.getChainId());
+                if (chainId !== 196) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: '0xc4' }]
+                        });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [{
+                                    chainId: '0xc4',
+                                    chainName: 'X Layer',
+                                    rpcUrls: ['https://rpc.xlayer.tech'],
+                                    nativeCurrency: { name: 'OKB', symbol: 'OKB', decimals: 18 },
+                                    blockExplorerUrls: ['https://www.okx.com/web3/explorer/xlayer']
+                                }]
+                            });
+                        } else {
+                            throw switchError;
+                        }
+                    }
+                }
+                accounts = await web3.eth.getAccounts();
+                memeContract = new web3.eth.Contract(memeContractABI, memeContractAddress);
+                tokenFactoryContract = new web3.eth.Contract(tokenFactoryABI, tokenFactoryAddress);
+                status.innerText = `Connected: ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
+                enableInputs(true);
+                await updateBalances();
+                parseUrlAndLoad();
+            } catch (error) {
+                status.innerText = `Connection failed: ${error.message || 'Unknown error'}`;
+                console.error('Connect wallet error:', error);
+            }
+        }
+
+        function enableInputs(enabled) {
+            document.getElementById('tokenId').disabled = !enabled;
+            document.getElementById('createDomainToken').disabled = !enabled;
+            document.getElementById('buyAmount').disabled = !enabled;
+            document.getElementById('sellAmount').disabled = !enabled;
+        }
+
+        async function updateBalances() {
+            if (!web3 || !accounts) {
+                document.getElementById('okbBalance').innerText = 'Please connect wallet';
+                document.getElementById('tokenBalance').innerText = 'Please connect wallet';
+                return;
+            }
+            try {
+                const okbBalance = await web3.eth.getBalance(accounts[0]);
+                document.getElementById('okbBalance').innerText = `Balance: ${web3.utils.fromWei(okbBalance, 'ether')} OKB`;
+                if (currentTokenAddress && web3.utils.isAddress(currentTokenAddress)) {
+                    tokenContract = new web3.eth.Contract(tokenABI, currentTokenAddress);
+                    const tokenBalance = await tokenContract.methods.balanceOf(accounts[0]).call();
+                    const symbol = await tokenContract.methods.symbol().call();
+                    document.getElementById('tokenBalance').innerText = `Balance: ${web3.utils.fromWei(tokenBalance, 'ether')} ${symbol}`;
+                } else {
+                    document.getElementById('tokenBalance').innerText = 'Please search a domain';
+                }
+            } catch (error) {
+                document.getElementById('okbBalance').innerText = 'Failed to fetch OKB balance';
+                document.getElementById('tokenBalance').innerText = 'Failed to fetch token balance';
+            }
+        }
+
+        async function searchDomain() {
+            let domainInput = document.getElementById('domainInput').value.trim();
+            const status = document.getElementById('status');
+            if (!domainInput) {
+                status.innerText = 'Please enter a valid domain (e.g., Jace123.meme)';
+                document.getElementById('tokenInfo').style.display = 'none';
+                return;
+            }
+            const parts = domainInput.split('.');
+            if (parts.length !== 2 || parts[1].toLowerCase() !== 'meme') {
+                status.innerText = 'Invalid domain format. Use format like Jace123.meme';
+                document.getElementById('tokenInfo').style.display = 'none';
+                return;
+            }
+            domainInput = `${parts[0]}.meme`; // Normalize to .meme
+            document.getElementById('domainInput').value = domainInput; // Update input field
+            try {
+                status.innerText = 'Searching domain...';
+                const tokenAddress = await memeContract.methods.getTokenAddressById(parts[0]).call();
+                if (tokenAddress === '0x0000000000000000000000000000000000000000') {
+                    status.innerText = 'No token found for this domain';
+                    document.getElementById('tokenInfo').style.display = 'none';
+                    currentTokenAddress = '';
+                    document.getElementById('tokenContract').value = '';
+                    window.history.replaceState({}, '', `/memefun/`);
+                    return;
+                }
+                currentTokenAddress = tokenAddress;
+                document.getElementById('tokenContract').value = tokenAddress;
+                await fetchTokenInfo();
+                status.innerText = '';
+                window.history.replaceState({}, '', `?domain=${encodeURIComponent(domainInput)}`);
+            } catch (error) {
+                status.innerText = `Domain not found or token not launched: ${error.message.includes('revert') ? error.message.split('revert')[1]?.trim() || 'Domain not registered' : error.message}`;
+                document.getElementById('tokenInfo').style.display = 'none';
+                currentTokenAddress = '';
+                document.getElementById('tokenContract').value = '';
+                window.history.replaceState({}, '', `/memefun/`);
+            }
+        }
+
+        async function fetchTokenInfo() {
+            if (!currentTokenAddress || !web3.utils.isAddress(currentTokenAddress)) {
+                document.getElementById('tokenInfo').style.display = 'none';
+                document.getElementById('progressResult').innerText = '';
+                document.getElementById('progressBar').style.width = '0%';
+                document.getElementById('buyAmount').disabled = true;
+                document.getElementById('sellAmount').disabled = true;
+                document.querySelectorAll('.percent-buttons button').forEach(btn => btn.disabled = true);
+                document.getElementById('buyButton').disabled = true;
+                document.getElementById('sellButton').disabled = true;
+                document.getElementById('tokenBalance').innerText = 'Please search a domain';
+                return;
+            }
+            try {
+                tokenContract = new web3.eth.Contract(tokenABI, currentTokenAddress);
+                const name = await tokenContract.methods.name().call();
+                const symbol = await tokenContract.methods.symbol().call();
+                const tokenState = await tokenFactoryContract.methods.tokens(currentTokenAddress).call();
+                const collateral = await tokenFactoryContract.methods.collateral(currentTokenAddress).call();
+                const fundingGoal = await tokenFactoryContract.methods.FUNDING_GOAL().call();
+                const progress = (Number(collateral) / Number(fundingGoal)) * 100;
+
+                document.getElementById('tokenDetails').innerText = `Token: ${name} (${symbol})`;
+                document.getElementById('progressResult').innerText = `Funding Progress: ${progress.toFixed(2)}% (State: ${['Not Created', 'Funding', 'Trading'][tokenState]})`;
+                document.getElementById('progressBar').style.width = `${Math.min(progress, 100)}%`;
+                document.getElementById('tokenInfo').style.display = 'block';
+
+                const isFunding = tokenState == 1 && accounts;
+                document.getElementById('buyAmount').disabled = !isFunding;
+                document.getElementById('sellAmount').disabled = !isFunding;
+                document.querySelectorAll('.percent-buttons button').forEach(btn => btn.disabled = !isFunding);
+                document.getElementById('buyButton').disabled = !isFunding;
+                document.getElementById('sellButton').disabled = !isFunding;
+
+                await updateBalances();
+            } catch (error) {
+                document.getElementById('tokenInfo').style.display = 'none';
+                document.getElementById('progressResult').innerText = '';
+                document.getElementById('progressBar').style.width = '0%';
+                document.getElementById('tokenDetails').innerText = `Failed to fetch token info: ${error.message}`;
+                document.getElementById('tokenBalance').innerText = 'Failed to fetch token info';
+                document.getElementById('buyAmount').disabled = true;
+                document.getElementById('sellAmount').disabled = true;
+                document.querySelectorAll('.percent-buttons button').forEach(btn => btn.disabled = true);
+                document.getElementById('buyButton').disabled = true;
+                document.getElementById('sellButton').disabled = true;
+            }
+        }
+
+        async function setPercent(percent, action) {
+            if (!web3 || !accounts) {
+                document.getElementById('transactionStatus').innerText = 'Please connect wallet';
+                return;
+            }
+            try {
+                let amount;
+                if (action === 'buy') {
+                    const okbBalance = await web3.eth.getBalance(accounts[0]);
+                    const balanceInOKB = Number(web3.utils.fromWei(okbBalance, 'ether'));
+                    amount = (balanceInOKB * percent / 100).toFixed(4);
+                    if (percent === 100) amount = (balanceInOKB - 0.001).toFixed(4);
+                    document.getElementById('buyAmount').value = amount > 0 ? amount : 0;
+                } else {
+                    if (!currentTokenAddress || !tokenContract) {
+                        document.getElementById('transactionStatus').innerText = 'No token selected';
+                        return;
+                    }
+                    const tokenBalance = await tokenContract.methods.balanceOf(accounts[0]).call();
+                    const balanceInTokens = Number(web3.utils.fromWei(tokenBalance, 'ether'));
+                    amount = (balanceInTokens * percent / 100).toFixed(4);
+                    if (percent === 100) amount = (balanceInTokens - 0.001).toFixed(4);
+                    document.getElementById('sellAmount').value = amount > 0 ? amount : 0;
+                }
+            } catch (error) {
+                document.getElementById('transactionStatus').innerText = `Failed to set amount: ${error.message}`;
+            }
+        }
+
+        async function buyTokens() {
+            if (!web3 || !accounts || !currentTokenAddress) {
+                document.getElementById('transactionStatus').innerText = 'Please connect wallet and select a token';
+                return;
+            }
+            const amount = document.getElementById('buyAmount').value;
+            if (!amount || amount <= 0) {
+                document.getElementById('transactionStatus').innerText = 'Please enter a valid amount';
+                return;
+            }
+            try {
+                const tokenState = await tokenFactoryContract.methods.tokens(currentTokenAddress).call();
+                if (tokenState != 1) {
+                    document.getElementById('transactionStatus').innerText = 'Token is not in funding state';
+                    return;
+                }
+                document.getElementById('transactionStatus').innerText = 'Buying tokens...';
+                const gas = await tokenFactoryContract.methods.buyTokens(currentTokenAddress).estimateGas({ from: accounts[0], value: web3.utils.toWei(amount, 'ether') });
+                await tokenFactoryContract.methods.buyTokens(currentTokenAddress).send({ from: accounts[0], value: web3.utils.toWei(amount, 'ether'), gas: Math.floor(gas * 1.2) });
+                document.getElementById('transactionStatus').innerText = 'Buy successful!';
+                await fetchTokenInfo();
+            } catch (error) {
+                document.getElementById('transactionStatus').innerText = `Buy failed: ${error.message}`;
+            }
+        }
+
+        async function sellTokens() {
+            if (!web3 || !accounts || !currentTokenAddress) {
+                document.getElementById('transactionStatus').innerText = 'Please connect wallet and select a token';
+                return;
+            }
+            const amount = document.getElementById('sellAmount').value;
+            if (!amount || amount <= 0) {
+                document.getElementById('transactionStatus').innerText = 'Please enter a valid amount';
+                return;
+            }
+            try {
+                const tokenState = await tokenFactoryContract.methods.tokens(currentTokenAddress).call();
+                if (tokenState != 1) {
+                    document.getElementById('transactionStatus').innerText = 'Token is not in funding state';
+                    return;
+                }
+                document.getElementById('transactionStatus').innerText = 'Selling tokens...';
+                await tokenContract.methods.approve(tokenFactoryAddress, web3.utils.toWei(amount, 'ether')).send({ from: accounts[0] });
+                const gas = await tokenFactoryContract.methods.sellTokens(currentTokenAddress, web3.utils.toWei(amount, 'ether')).estimateGas({ from: accounts[0] });
+                await tokenFactoryContract.methods.sellTokens(currentTokenAddress, web3.utils.toWei(amount, 'ether')).send({ from: accounts[0], gas: Math.floor(gas * 1.2) });
+                document.getElementById('transactionStatus').innerText = 'Sell successful!';
+                await fetchTokenInfo();
+            } catch (error) {
+                document.getElementById('transactionStatus').innerText = `Sell failed: ${error.message}`;
+            }
+        }
+
+        async function createDomainToken() {
+            if (!web3 || !accounts) {
+                document.getElementById('createDomainStatus').innerText = 'Please connect wallet';
+                return;
+            }
+            const tokenId = document.getElementById('tokenId').value;
+            if (!tokenId || tokenId <= 0) {
+                document.getElementById('createDomainStatus').innerText = 'Please enter a valid NFT Token ID';
+                return;
+            }
+            try {
+                document.getElementById('createDomainStatus').innerText = 'Checking NFT ownership...';
+                const owner = await memeContract.methods.ownerOf(tokenId).call();
+                if (owner.toLowerCase() !== accounts[0].toLowerCase()) {
+                    document.getElementById('createDomainStatus').innerText = 'You do not hold this NFT';
+                    return;
+                }
+                const id = await memeContract.methods.getIdByTokenId(tokenId).call();
+                document.getElementById('createDomainStatus').innerText = 'Creating domain token...';
+                const gas = await tokenFactoryContract.methods.createToken(`${id}.meme`, id.toUpperCase()).estimateGas({ from: accounts[0] });
+                const result = await tokenFactoryContract.methods.createToken(`${id}.meme`, id.toUpperCase()).send({ from: accounts[0], gas: Math.floor(gas * 1.2) });
+                const tokenAddress = result;
+                document.getElementById('createDomainStatus').innerText = `Domain token created: ${tokenAddress}`;
+                document.getElementById('tokenContract').value = tokenAddress;
+                currentTokenAddress = tokenAddress;
+                await fetchTokenInfo();
+                await updateBalances();
+            } catch (error) {
+                document.getElementById('createDomainStatus').innerText = `Create failed: ${error.message.includes('revert') ? error.message.split('revert')[1]?.trim() || 'Unknown reason' : error.message}`;
+            }
+        }
+
+        function parseUrlAndLoad() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let domain = '';
+            if (urlParams.has('domain')) {
+                domain = decodeURIComponent(urlParams.get('domain'));
+            }
+            if (domain) {
+                const parts = domain.split('.');
+                if (parts.length === 2 && parts[1].toLowerCase() === 'meme') {
+                    document.getElementById('domainInput').value = `${parts[0]}.meme`;
+                    searchDomain();
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const domainInput = document.getElementById('domainInput');
+            const searchButton = document.getElementById('searchButton');
+            const connectWalletButton = document.getElementById('connectWallet');
+
+            searchButton.addEventListener('click', searchDomain);
+            domainInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchDomain();
+            });
+            connectWalletButton.addEventListener('click', connectWallet);
+
+            parseUrlAndLoad();
+            if (!window.location.protocol.startsWith('http')) document.getElementById('walletStatus').innerHTML = 'Please run this page via a local server (e.g., "npx serve") to connect MetaMask.';
+            else if (!window.ethereum) document.getElementById('walletStatus').innerHTML = 'No wallet detected. Please install <a href="https://metamask.io">MetaMask</a>.';
+        });
+    </script>
+</body>
+</html>
